@@ -104,10 +104,11 @@ main{padding:16px 14px calc(84px + env(safe-area-inset-bottom)); max-width:760px
 .cal-cell.sat .num{color:var(--sat);} .cal-cell.sun .num{color:var(--sun);}
 .cal-cell.today .num{background:var(--accent); color:#fff; border-radius:6px; padding:0 4px; display:inline-block;}
 .mini{
-  display:block; color:#fff; border-radius:4px; padding:1px 4px; margin-bottom:2px;
-  font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.45;
-  font-variant-numeric:tabular-nums;
+  display:block; color:#fff; border-radius:4px; padding:2px 4px; margin-bottom:2px;
+  font-weight:600; line-height:1.35; font-variant-numeric:tabular-nums;
 }
+.mini .nm{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.mini .tm{display:block; font-weight:500; font-size:9px; opacity:.92; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:-.02em;}
 
 /* ===== 集計 ===== */
 .total-hero{
@@ -385,7 +386,7 @@ function renderCalendar(){
     const list = (state.shifts[k]||[]).slice().sort((a,b)=>(a.sh+a.sm/60)-(b.sh+b.sm/60));
     const minis = list.map(sh=>{
       const s = staffById(sh.staffId); if(!s) return '';
-      return `<span class="mini" style="background:${s.color}">${esc(s.name)} ${sh.sh}-${sh.eh}</span>`;
+      return `<span class="mini" style="background:${s.color}"><span class="nm">${esc(s.name)}</span><span class="tm">${fmtTime(sh.sh,sh.sm)}-${fmtTime(sh.eh,sh.em)}</span></span>`;
     }).join('');
     html += `<div class="cal-cell ${cls}" onclick="openModal('${k}')"><span class="num">${d}</span>${minis}</div>`;
   }
